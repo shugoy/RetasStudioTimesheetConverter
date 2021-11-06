@@ -44,15 +44,6 @@ def get_settings_dict(array):
     }
     for k, v in idx_dict.items():
         d[k] = convert(array[v])
-
-    # d["n_frames"] = convert(array[16])
-    # d["n_layers"] = int(array[20], 16)
-    # d["fps"] = int(array[22], 16)
-    # d["scene"] = int(array[26], 16)
-    # d["cut"] = int(array[34], 16)
-    # d["sheet_view"] = int(array[48], 16)
-    # d["frames_per_page"] = int(array[52], 16)
-    # d["guideline"] = int(array[50], 16)
     
     # sheet_view_dict = {
     #     1: "num_frames",
