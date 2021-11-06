@@ -93,8 +93,6 @@ def sxf2json(filepath, savepath):
         buffer = f.read()
         strr = repr(buffer)[2:-1]
 
-    # str_lines = strr.split("\\n")
-    # str_lines = strr.split("\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\n")
     str_lines = re.split(r'\\x01[A-Z]\\x00\\x00\\x00\\x0[0-1]\\x00\\x00\\x00\\n', strr)
 
     settings_chars = str_lines[0].split("\\x")
