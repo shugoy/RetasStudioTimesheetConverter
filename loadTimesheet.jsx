@@ -7,6 +7,13 @@ if (Folder.fs == "Macintosh") {
     var slash = "\\";
 }
 
+// python path setting
+if (Folder.fs == "Macintosh") {
+    var pythonpath = '/usr/bin/python3';
+} else if (Folder.fs == "Windows") {
+    var pythonpath = '~\\AppData\\Local\\Microsoft\\WindowsApps\\python3.exe';
+}
+
 function openFileDirectory() {
     var openPath = File.openDialog("タイムシート[.json]を選択してください", "");
 
@@ -14,8 +21,6 @@ function openFileDirectory() {
     if (ext == ".json") {return openPath}
     else if (ext != "sxf") {
         // alert(openPath);
-        if (Folder.fs == "Macintosh") var pythonpath = '/usr/bin/python3';
-        else if (Folder.fs == "Windows") var pythonpath = '~\\AppData\\Local\\Microsoft\\WindowsApps\\python3.exe';
         var fsName = openPath.fsName;
         var cmd = [pythonpath, scriptPath + slash + "sxf2json.py", fsName].join(" ");
         var result = system.callSystem(cmd);
