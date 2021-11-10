@@ -20,7 +20,7 @@ python3 sxf2json.py <フォルダ名>
 以下のファイルを`Applications/Adobe After Effects <Version>/Scripts`に配置してください．
 - `loadTimesheet.jsx`
 - `initComp.json`
-- `json2.js`[https://gist.github.com/atheken/654510]からダウンロード
+- `json2.js`[https://gist.github.com/atheken/654510] からダウンロード
 
 1. `File > Scripts > Run Script File...`から`loadTimesheet.jsx`を実行．
 2. "タイムシートを選択して実行"ボタンを押す．
