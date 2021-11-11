@@ -126,7 +126,3 @@ if __name__ == '__main__':
             sxf2json(inputpath, savepath)
     else:
         print('No such file or directory:', filepath)
-
-
-
-    
