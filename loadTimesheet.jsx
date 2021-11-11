@@ -18,7 +18,7 @@ function openFileDirectory() {
     var openPath = File.openDialog("タイムシート[.json]を選択してください", "");
 
     var ext = openPath.name.split('.')[-1];
-    if (ext == ".json") {return openPath}
+    if (ext == "json") {return openPath}
     else if (ext != "sxf") {
         // alert(openPath);
         var fsName = openPath.fsName;
