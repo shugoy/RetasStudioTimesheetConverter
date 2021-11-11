@@ -119,7 +119,7 @@ if __name__ == '__main__':
     elif os.path.isdir(filepath):
         from glob import glob
         from tqdm import tqdm
-        inputpaths = sorted(glob(os.path.join(filepath, "**", "*.sxf")))
+        inputpaths = sorted(glob(os.path.join(filepath, "**", "*.sxf"), recursive=True))
         print(inputpaths)
         for inputpath in tqdm(inputpaths):
             savepath = os.path.splitext(inputpath)[0]+".json"
