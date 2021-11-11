@@ -7,24 +7,15 @@ if (Folder.fs == "Macintosh") {
     var slash = "\\";
 }
 
-// python path setting
-if (Folder.fs == "Macintosh") {
-    var pythonpath = '/usr/bin/python3';
-} else if (Folder.fs == "Windows") {
-    var pythonpath = '~\\AppData\\Local\\Microsoft\\WindowsApps\\python3.exe';
-}
-
 function openFileDirectory() {
     var openPath = File.openDialog("タイムシート[.json]を選択してください", "");
 
-    var ext = openPath.name.split('.')[-1];
-    if (ext == "json") {return openPath}
-    else if (ext != "sxf") {
-        // alert(openPath);
+    var ext = openPath.name.split('.').slice(-1)[0];
+    if (ext == "json") {return openPath;}
+    else if (ext == "sxf") {
         var fsName = openPath.fsName;
-        var cmd = [pythonpath, scriptPath + slash + "sxf2json.py", fsName].join(" ");
+        var cmd = ["python3", scriptPath + slash + "sxf2json.py", fsName].join(" ");
         var result = system.callSystem(cmd);
-        // alert(result);
         return new File(openPath.fsName.split('.')[0] + ".json");
     }
     else return null;
@@ -70,7 +61,7 @@ function runTimeSheet() {
     var file = openFileDirectory();
 
     if (file == null) {
-        alert(file.fsName + "を読み込めませんでした．")
+        alert("を読み込めませんでした．")
         return;
     } 
     else if (!file.exists) {
@@ -79,7 +70,6 @@ function runTimeSheet() {
     }
 
     filepath = file.fsName;
-    // filepath = String(file);
     var name = file.parent.name;
     var parent = file.parent;
 
