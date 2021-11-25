@@ -4,17 +4,18 @@
 RETAS STUDIOのタイムシートのsxfファイルをjson形式に変換・保存します．
 
 ## 使い方
-### sxfファイルをjsonファイルに変換
-```
-python3 sxf2json.py <タイムシート.sxf>
-```
+### Windowsの場合
+GitHubのReleasesから`sxf2json.exe`をダウンロードして好きな場所に置いて下さい．
+sxfファイル，またはsxfファイルの入ったフォルダを`sxf2json.exe`にドラッグ&ドロップしてください．
+sxfファイルと同じ階層にjsonファイルが出力されます．
+![screenshot](images/screenshot.gif)
 
-### フォルダ一括処理
+### Macの場合
+GitHubのReleasesから`sxf2json`をダウンロードして好きな場所に置いて下さい．
+ターミナルで`sxf2json`のある場所を開き，以下のコマンドを実行して下さい．
 ```
-pip3 install glob tqdm
-python3 sxf2json.py <フォルダ名>
+sxf2json <タイムシート.sxf>
 ```
-再帰的にフォルダ内のsxfファイルを取得してjsonに変換します．
 
 ### After Effectsでタイムシートの読み込み
 以下のファイルを`Applications/Adobe After Effects <Version>/Scripts`に配置してください．
@@ -28,7 +29,7 @@ python3 sxf2json.py <フォルダ名>
 
 `initComp.json`にてコンポジション設定の初期設定を編集することができます．
 
-#### スクリプトからsxfファイルを選択してpythonによるjson変換を自動で実行
+#### スクリプトからsxfファイルを選択してjson変換を自動で実行
 - AfterEffectsにて`Preferences > Scripting & Expressions > Application Scripting > Allow Scripts to Write Files and Access Network`にチェック.
-- `sxf2json.py`をAfterEffectsのScriptsフォルダに配置．
-- jsonファイル選択時にsxfファイルを選択すると，pythonが実行され，json変換・読み込みが行われます．(*パスに日本語が含まれているとうまく行かない可能性があります)
+- `sxf2json.exe`(win)または`sxf2json`(mac)をAfterEffectsのScriptsフォルダに配置．
+- jsonファイル選択時にsxfファイルを選択すると，バイナリが実行され，json変換・読み込みが行われます．(*パスに日本語が含まれているとうまく行かない可能性があります)
