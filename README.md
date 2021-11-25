@@ -20,10 +20,13 @@ sxf2json <タイムシート.sxf>
 ### After Effectsでタイムシートの読み込み
 ![ae](images/ae.gif)
 
-以下のファイルを`Applications/Adobe After Effects <Version>/Scripts`に配置してください．
+以下のファイル
 - `loadTimesheet.jsx`
 - `initComp.json`
 - `json2.js`[https://gist.github.com/atheken/654510] からダウンロード
+
+を`C:\Program Files\Adobe\Adobe After Effects <Version>\Support Files\Scripts` (win) または`Applications/Adobe After Effects <Version>/Scripts` (mac)に配置してください．
+
 
 1. `File > Scripts > Run Script File...`から`loadTimesheet.jsx`を実行．
 2. "タイムシートを選択して実行"ボタンを押す．
