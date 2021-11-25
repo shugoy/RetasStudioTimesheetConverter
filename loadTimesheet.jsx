@@ -14,7 +14,16 @@ function openFileDirectory() {
     if (ext == "json") {return openPath;}
     else if (ext == "sxf") {
         var fsName = openPath.fsName;
-        var cmd = ["python3", scriptPath + slash + "sxf2json.py", fsName].join(" ");
+        if (Folder.fs == "Windows" && File(scriptPath + slash + "sxf2json.exe").exists) {
+            var cmd = scriptPath + slash + "sxf2json.exe";
+        } else if (Folder.fs == "Macintosh" && File(scriptPath + slash + "sxf2json").exists) {
+            var cmd = scriptPath + slash + "sxf2json";
+        } else if (File(scriptPath + slash + "sxf2json.py").exists) {
+            var cmd = ["python3", scriptPath + slash + "sxf2json.py"].join(" ");
+        } else {
+            return null;
+        }
+        var cmd = [cmd, fsName].join(" ");
         var result = system.callSystem(cmd);
         return new File(openPath.fsName.split('.')[0] + ".json");
     }
