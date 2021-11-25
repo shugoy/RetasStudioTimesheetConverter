@@ -107,22 +107,23 @@ def sxf2json(filepath, savepath):
         
 if __name__ == '__main__':
 
-    if len(sys.argv) != 2:
+    if len(sys.argv) < 2:
         print("Usage: python3 sxf2json.py <timesheet.sxf>")
         exit(0)
 
-    filepath = sys.argv[1]
-    if os.path.isfile(filepath) and os.path.splitext(filepath)[-1] == ".sxf":
-        savepath = os.path.splitext(filepath)[0]+".json"
-        sxf2json(filepath, savepath)
-        print("Saved to", savepath)
-    elif os.path.isdir(filepath):
-        from glob import glob
-        from tqdm import tqdm
-        inputpaths = sorted(glob(os.path.join(filepath, "**", "*.sxf"), recursive=True))
-        print(inputpaths)
-        for inputpath in tqdm(inputpaths):
-            savepath = os.path.splitext(inputpath)[0]+".json"
-            sxf2json(inputpath, savepath)
-    else:
-        print('No such file or directory:', filepath)
+    for idx in range(1, len(sys.argv)):
+        filepath = sys.argv[idx]
+        if os.path.isfile(filepath) and os.path.splitext(filepath)[-1] == ".sxf":
+            savepath = os.path.splitext(filepath)[0]+".json"
+            sxf2json(filepath, savepath)
+            print("Saved to", savepath)
+        elif os.path.isdir(filepath):
+            from glob import glob
+            from tqdm import tqdm
+            inputpaths = sorted(glob(os.path.join(filepath, "**", "*.sxf"), recursive=True))
+            print(inputpaths)
+            for inputpath in tqdm(inputpaths):
+                savepath = os.path.splitext(inputpath)[0]+".json"
+                sxf2json(inputpath, savepath)
+        else:
+            print('No such file or directory:', filepath)
