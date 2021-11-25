@@ -1,3 +1,7 @@
 json2.js
 TimeSheetGUI2.jsx
 .vscode
+__pycache__
+build
+dist
+*.spec
