@@ -61,7 +61,7 @@ function runTimeSheet() {
     var file = openFileDirectory();
 
     if (file == null) {
-        alert("を読み込めませんでした．")
+        alert("ファイルを読み込めませんでした．")
         return;
     } 
     else if (!file.exists) {
