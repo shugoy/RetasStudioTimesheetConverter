@@ -1,4 +1,4 @@
-# TimesheetConverter
+# RetasStudio Timesheet Converter
 
 ![teaser](images/teaser.png)
 RETAS STUDIOのタイムシートのsxfファイルをjson形式に変換・保存します．
