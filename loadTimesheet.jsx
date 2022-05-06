@@ -14,12 +14,12 @@ function openFileDirectory() {
     if (ext == "json") {return openPath;}
     else if (ext == "sxf") {
         var fsName = openPath.fsName;
-        if (Folder.fs == "Windows" && File(scriptPath + slash + "sxf2json.exe").exists) {
-            var cmd = scriptPath + slash + "sxf2json.exe";
-        } else if (Folder.fs == "Macintosh" && File(scriptPath + slash + "sxf2json").exists) {
-            var cmd = scriptPath + slash + "sxf2json";
-        } else if (File(scriptPath + slash + "sxf2json.py").exists) {
-            var cmd = ["python3", scriptPath + slash + "sxf2json.py"].join(" ");
+        if (Folder.fs == "Windows" && File(scriptDir + slash + "sxf2json.exe").exists) {
+            var cmd = scriptDir + slash + "sxf2json.exe";
+        } else if (Folder.fs == "Macintosh" && File(scriptDir + slash + "sxf2json").exists) {
+            var cmd = scriptDir + slash + "sxf2json";
+        } else if (File(scriptDir + slash + "sxf2json.py").exists) {
+            var cmd = ["python3", scriptDir + slash + "sxf2json.py"].join(" ");
         } else {
             return null;
         }
@@ -153,7 +153,8 @@ function runTimeSheet() {
 var win = new Window('palette', 'Compose from JSON');
 
 var scriptFile = new File($.fileName);
-var scriptPath = scriptFile.parent.fsName;
+var scriptDir = scriptFile.parent.fsName;
+var scriptname = scriptFile.parent.name;
 
 var btnRun = win.add('button', undefined, 'タイムシート(.json/.sxf)を選択して実行');
 
