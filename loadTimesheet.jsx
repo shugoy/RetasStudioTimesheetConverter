@@ -2,9 +2,9 @@
 
 // path setting
 if (Folder.fs == "Macintosh") {
-    var slash = "/";
+    var delimiter = "/";
 } else if (Folder.fs == "Windows") {
-    var slash = "\\";
+    var delimiter = "\\";
 }
 
 function openFileDirectory() {
@@ -14,12 +14,12 @@ function openFileDirectory() {
     if (ext == "json") {return openPath;}
     else if (ext == "sxf") {
         var fsName = openPath.fsName;
-        if (Folder.fs == "Windows" && File(scriptDir + slash + "sxf2json.exe").exists) {
-            var cmd = scriptDir + slash + "sxf2json.exe";
-        } else if (Folder.fs == "Macintosh" && File(scriptDir + slash + "sxf2json").exists) {
-            var cmd = scriptDir + slash + "sxf2json";
-        } else if (File(scriptDir + slash + "sxf2json.py").exists) {
-            var cmd = ["python3", scriptDir + slash + "sxf2json.py"].join(" ");
+        if (Folder.fs == "Windows" && File(scriptDir + delimiter + "sxf2json.exe").exists) {
+            var cmd = scriptDir + delimiter + "sxf2json.exe";
+        } else if (Folder.fs == "Macintosh" && File(scriptDir + delimiter + "sxf2json").exists) {
+            var cmd = scriptDir + delimiter + "sxf2json";
+        } else if (File(scriptDir + delimiter + "sxf2json.py").exists) {
+            var cmd = ["python3", scriptDir + delimiter + "sxf2json.py"].join(" ");
         } else {
             return null;
         }
@@ -57,7 +57,7 @@ function getFootagePath(pathdir, layerName) {
     for (var i=0; i<5; i++) {
         for (var j=0; j<exts.length; j++) {
             var number = "00001".slice(-i);
-            var path = [pathdir, layerName, layerName + number + exts[j]].join(slash);
+            var path = [pathdir, layerName, layerName + number + exts[j]].join(delimiter);
             var file = File(path);
             if (file.exists) return file
         }
@@ -80,7 +80,6 @@ function runTimeSheet() {
 
     filepath = file.fsName;
     var name = file.parent.name;
-    var parent = file.parent;
 
     var tsObject = loadJsonFile(filepath);
 
@@ -92,10 +91,8 @@ function runTimeSheet() {
     app.project.timeDisplayType = TimeDisplayType.FRAMES;
 
     var theComp = null
-
     var theFolder = app.project.items.addFolder(name);
-    
-    var pathdir = filepath.split(slash).slice(0, -1).join(slash);
+    var pathdir = filepath.split(delimiter).slice(0, -1).join(delimiter);
 
     const layerNames = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     for (var idx_layer=0; idx_layer<n_layers-1; idx_layer++) {
@@ -109,6 +106,7 @@ function runTimeSheet() {
         }
         else continue;
     
+        // 画像シーケンスを読み込み
         if (!io.canImportAs(ImportAsType.FOOTAGE)) continue;
         io.importAs = ImportAsType.FOOTAGE;
         io.sequence = true;
@@ -126,6 +124,7 @@ function runTimeSheet() {
         // コンポジションにレイヤーを追加
         var theLayer = theComp.layers.add(tgaseq);
         
+        // タイムリマップを有効化
         theLayer.timeRemapEnabled = true;
         var timeRemapProp = theLayer.property("ADBE Time Remapping")
         timeRemapProp.removeKey(timeRemapProp.numKeys);
@@ -154,7 +153,6 @@ var win = new Window('palette', 'Compose from JSON');
 
 var scriptFile = new File($.fileName);
 var scriptDir = scriptFile.parent.fsName;
-var scriptname = scriptFile.parent.name;
 
 var btnRun = win.add('button', undefined, 'タイムシート(.json/.sxf)を選択して実行');
 
