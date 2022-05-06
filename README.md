@@ -17,25 +17,25 @@ RETAS STUDIOのタイムシートのsxfファイルをjson形式に変換・保�
 sxf2json <タイムシート.sxf>
 ```
 
-### After Effectsでタイムシートの読み込み
+### After Effectsでタイムシート(.json)の読み込み
 ![ae](images/ae.gif)
 
 以下のファイル
 - `loadTimesheet.jsx`
-- `initComp.json`
 - `json2.js`[https://gist.github.com/atheken/654510] からダウンロード
 
-を`C:\Program Files\Adobe\Adobe After Effects <Version>\Support Files\Scripts` (win) または`Applications/Adobe After Effects <Version>/Scripts` (mac)に配置してください．
+を以下のパスに配置してください．
+- `C:\Program Files\Adobe\Adobe After Effects <Version>\Support Files\Scripts` (Win) 
 
+- `Applications/Adobe After Effects <Version>/Scripts` (Mac)
 
+実行方法
 1. `File > Scripts > Run Script File...`から`loadTimesheet.jsx`を実行．
 2. "タイムシートを選択して実行"ボタンを押す．
 3. jsonファイルを選択すると，コンポジションの作成とフッテージの読み込み，タイムリマップの設定が行われます．
 
-`initComp.json`にてコンポジション設定の初期設定を編集することができます．
 
-
-#### スクリプトからsxfファイルを選択してjson変換を自動で実行
+### After Effectsでタイムシート(.sxf)の読み込み (sxf-->jsonの自動変換)
 - AfterEffectsにて`Preferences > Scripting & Expressions > Application Scripting > Allow Scripts to Write Files and Access Network`にチェック.
-- `sxf2json.exe`(win)または`sxf2json`(mac)をAfterEffectsのScriptsフォルダに配置．
-- jsonファイル選択時にsxfファイルを選択すると，バイナリが実行され，json変換・読み込みが行われます．(*パスに日本語が含まれているとうまく行かない可能性があります)
+- `sxf2json.exe`(Win)または`sxf2json`(Mac)をAfterEffectsのScriptsフォルダに配置．
+- タイムシート選択時にsxfファイルを選択すると，バイナリが実行され，json変換・読み込みが行われます．(*パスに日本語が含まれているとうまく行かない可能性があります)

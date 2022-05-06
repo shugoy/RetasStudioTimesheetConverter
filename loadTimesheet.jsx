@@ -42,14 +42,14 @@ function loadJsonFile(_filepath) {
     return myObject;
 }
 
-function createNewComposition(tsObject, name) {
+function createNewComposition(tsObject, name, width, height) {
     var n_frames = tsObject.settings.n_frames;
     var n_layers = tsObject.settings.n_layers;
     var fps = tsObject.settings.fps;
 
     var pixelAspect = 1;
     var duration = n_frames / fps;
-    return app.project.items.addComp(name, parseInt(width.text, 10), parseInt(height.text, 10), pixelAspect, duration, fps);
+    return app.project.items.addComp(name, width, height, pixelAspect, duration, fps);
 }
 
 function getFootagePath(pathdir, layerName) {
@@ -69,7 +69,7 @@ function runTimeSheet() {
 
     var file = openFileDirectory();
 
-    if (file == null) {
+    if (file === null) {
         alert("ファイルを読み込めませんでした．")
         return;
     } 
@@ -91,8 +91,7 @@ function runTimeSheet() {
     app.project.frameRate = fps;
     app.project.timeDisplayType = TimeDisplayType.FRAMES;
 
-    theComp = createNewComposition(tsObject, name);
-    theComp.openInViewer();
+    var theComp = null
 
     var theFolder = app.project.items.addFolder(name);
     
@@ -103,7 +102,7 @@ function runTimeSheet() {
         var layerName = layerNames[idx_layer];
 
         var file = getFootagePath(pathdir, layerName);
-        if (file == null) continue;
+        if (file === null) continue;
         
         if (file.exists) {
             var io = new ImportOptions(file);
@@ -116,6 +115,15 @@ function runTimeSheet() {
         io.forceAlphabetical = true;
         tgaseq = app.project.importFile(io);
         tgaseq.parentFolder = theFolder;
+        
+        // コンポジションの作成
+        if (theComp === null) {
+            var width = tgaseq.width;
+            var height = tgaseq.height;
+            theComp = createNewComposition(tsObject, name, width, height);
+            theComp.openInViewer();
+        }
+        // コンポジションにレイヤーを追加
         var theLayer = theComp.layers.add(tgaseq);
         
         theLayer.timeRemapEnabled = true;
@@ -143,29 +151,11 @@ function runTimeSheet() {
 
 // GUI setting
 var win = new Window('palette', 'Compose from JSON');
-// var win = this;
-win.add('statictext', undefined, "コンポジション設定"); 
 
 var scriptFile = new File($.fileName);
 var scriptPath = scriptFile.parent.fsName;
-var comp_setting = loadJsonFile([scriptPath, "initComp.json"].join(slash));
 
-if (comp_setting == null) {
-    var w = 1280;
-    var h = 720;
-} else {
-    var w = comp_setting.Width;
-    var h = comp_setting.Height;
-}
-var group_w = win.add('group', undefined, '');  
-group_w.add('statictext', undefined, "Width:"); 
-var width = group_w.add('edittext', undefined, w); 
-
-var group_h = win.add('group', undefined, '');  
-group_h.add('statictext', undefined, "Height:"); 
-var height = group_h.add('edittext', undefined, h); 
-
-var btnRun = win.add('button', undefined, 'タイムシートを選択して実行');
+var btnRun = win.add('button', undefined, 'タイムシート(.json/.sxf)を選択して実行');
 
 btnRun.onClick = function btnRunTimesheet(){
     runTimeSheet();
