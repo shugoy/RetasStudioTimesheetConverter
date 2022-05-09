@@ -32,10 +32,6 @@ python3 sxf2json <タイムシートを含んだフォルダ>
 ## After Effectsでタイムシート(.json)の読み込み
 ![ae](images/capture.gif)
 
-<!-- `loadTimesheet.jsx`を以下のパスに配置してください． -->
-<!-- - `C:\Program Files\Adobe\Adobe After Effects <Version>\Support Files\Scripts\ScriptUI Panels` (Win) 
-- `Applications/Adobe After Effects <Version>/Scripts/ScriptUI Panels` (Mac) -->
-
 実行方法
 1. 以下のどちらかの方法でAfter EffectsのScriptUI Panelにスクリプトを追加
     - `File > Scripts > Install ScriptUI Panel...`から`Compose from Timesheet.jsx`を選択
