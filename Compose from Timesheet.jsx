@@ -134,13 +134,18 @@ function runTimeSheet() {
         theLayer.timeRemapEnabled = true;
         var timeRemapProp = theLayer.property("ADBE Time Remapping")
         timeRemapProp.removeKey(timeRemapProp.numKeys);
-        
+
         theLayer.outPoint = n_frames/fps;
         
         var keyIndex = 1;
+        var isVisible = false;
         for (var idx_frame=0; idx_frame<n_frames-1; idx_frame++) {
             var value = tsObject.inbetween[layerName][idx_frame];
             if (value > 0) {
+                if (isVisible == false) {
+                    theLayer.inPoint = idx_frame/fps;
+                    isVisible = true;
+                }
                 var timeRemapProp = theLayer.property("ADBE Time Remapping");
                 var frameDuration = tgaseq.frameDuration;
                 var sec = idx_frame * frameDuration;
@@ -148,7 +153,7 @@ function runTimeSheet() {
                 timeRemapProp.setValueAtTime(sec, valSec);
                 timeRemapProp.setInterpolationTypeAtKey(keyIndex, KeyframeInterpolationType.HOLD, KeyframeInterpolationType.HOLD)
                 keyIndex++;
-            }
+            } 
         }   
     }
 }
@@ -158,11 +163,31 @@ function runTimeSheet() {
 function createUI(thisObj){
     var myPanel = (thisObj instanceof Panel) ? thisObj : new Window("palette", "Compose from JSON",
     [100, 100, 300, 300]);
+    
+    
+    var btnRun = myPanel.add('button', [10, 10, 10+90, 10+20], '実行');
 
-    var btnRun = myPanel.add('button', [10, 10, 100, 30], '実行');
-
-    btnRun.onClick = function btnRunTimesheet(){
+    btnRun.onClick = function (){
         runTimeSheet();
+    };
+
+    var textui_sxf2json_label = myPanel.add('statictext', [10, 40, 10+140, 40+20], "sxf2json");
+    var textui_sxf2json_path = myPanel.add('edittext', [10, 60, 10+140, 60+20], scriptDir);
+    var btn_sxf2json_path = myPanel.add('button', [10+140+10, 60, 10+140+10+30, 60+20], '...');
+    
+    btn_sxf2json_path.onClick = function btnfn_sxf2json_path(){
+        var openPath = File.openDialog("sxf2json[.exe/.py]を選択してください", "");
+        if (openPath === null) {
+            alert("ファイルを読み込めませんでした．")
+            return;
+        } else {
+            scriptDir = openPath.parent.fsName;
+            textui_sxf2json_path.text = openPath.fsName;
+        }
+    }
+    textui_sxf2json_path.onChanging = function () {
+        scriptFile = new File(textui_sxf2json_path.text);
+        scriptDir = scriptFile.parent.fsName;
     }
 
     return myPanel;
