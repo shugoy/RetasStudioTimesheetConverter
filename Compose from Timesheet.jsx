@@ -151,7 +151,7 @@ function runTimeSheet() {
                 var sec = idx_frame * frameDuration;
                 var valSec = (value - 1) * frameDuration;
                 timeRemapProp.setValueAtTime(sec, valSec);
-                timeRemapProp.setInterpolationTypeAtKey(keyIndex, KeyframeInterpolationType.HOLD, KeyframeInterpolationType.HOLD)
+                timeRemapProp.setInterpolationTypeAtKey(timeRemapProp.numKeys, KeyframeInterpolationType.HOLD, KeyframeInterpolationType.HOLD)
                 keyIndex++;
             } 
         }   
@@ -195,7 +195,9 @@ function createUI(thisObj){
 
 var myToolsPanel = createUI(this);
 
+// for debugging
 if (myToolsPanel instanceof Window) {
     myToolsPanel.center();
     myToolsPanel.show();
+    runTimeSheet();
 }
