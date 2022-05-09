@@ -78,7 +78,7 @@ function runTimeSheet() {
 
     var file = openFileDirectory();
 
-    if (file === null) {
+    if (file === null) {  // Cancel
         return;
     }
     else if (file == -1) {
@@ -140,17 +140,17 @@ function runTimeSheet() {
         // タイムリマップを有効化
         theLayer.timeRemapEnabled = true;
         var timeRemapProp = theLayer.property("ADBE Time Remapping")
+        // タイムリマップは初期状態で先頭と末尾に打たれるので，末尾を削除
         timeRemapProp.removeKey(timeRemapProp.numKeys);
-        // timeRemapProp.removeKey(1);
 
         var frameDuration = tgaseq.frameDuration;
         theLayer.outPoint = n_frames * frameDuration;
         
-        // var keyIndex = 1;
         var isVisible = false;
         for (var idx_frame = 0; idx_frame < n_frames-1; idx_frame++) {
             var frame_value = tsObject.inbetween[layerName][idx_frame];
             if (frame_value > 0) {
+                // inpointを設定
                 if (isVisible == false) {
                     theLayer.inPoint = idx_frame*frameDuration;
                     theLayer.outPoint = theLayer.outPoint - theLayer.inPoint;
@@ -159,8 +159,8 @@ function runTimeSheet() {
                 var time_sec = idx_frame * frameDuration;
                 var val_sec = (frame_value - 1) * frameDuration;
                 timeRemapProp.setValueAtTime(time_sec, val_sec);
+                // 一番後ろのキーの設定
                 timeRemapProp.setInterpolationTypeAtKey(timeRemapProp.numKeys, KeyframeInterpolationType.HOLD, KeyframeInterpolationType.HOLD)
-                // keyIndex++;
             } 
         }   
     }
