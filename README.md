@@ -50,3 +50,7 @@ python3 sxf2json <タイムシートを含んだフォルダ>
 1. After Effectsにて`Preferences > Scripting & Expressions > Application Scripting > Allow Scripts to Write Files and Access Network`にチェック.
 1. After Effectsの`Compose from Timesheet`パネルの`sxf2json`の`...`をクリックして，`sxf2json.exe`(Win)または`sxf2json`(Mac)または`sxf2json.py`(Win/Mac)を選択
 1. タイムシート選択時にsxfファイルを選択すると，バイナリが実行され，json変換・読み込みが行われます．(*パスに日本語が含まれているとうまく行かない可能性があります)
+
+## 動作確認
+- Windows 10, After Effects 2022
+- macOS Big Sur, After Effects 2020
