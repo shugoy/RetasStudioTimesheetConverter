@@ -30,8 +30,7 @@ python3 sxf2json.py <タイムシート.sxf>
 python3 sxf2json <タイムシートを含んだフォルダ>
 ```
 ## After Effectsでタイムシート(.json)の読み込み
-<!-- ![ae](images/ae.gif) -->
-![](images/capture.mov)
+![ae](images/capture.gif)
 
 <!-- `loadTimesheet.jsx`を以下のパスに配置してください． -->
 <!-- - `C:\Program Files\Adobe\Adobe After Effects <Version>\Support Files\Scripts\ScriptUI Panels` (Win) 
