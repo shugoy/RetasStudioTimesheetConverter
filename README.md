@@ -7,7 +7,7 @@ RETAS STUDIOのタイムシートのsxfファイルをjson形式に変換・保�
 ### Windowsの場合
 ![screenshot](images/screenshot.gif)
 - GitHubのReleasesから`sxf2json.exe`をダウンロードして好きな場所に置いて下さい．
-- sxfファイル，またはsxfファイルの入ったフォルダを`sxf2json.exe`にドラッグ&ドロップしてください．
+- sxfファイル，またはsxfファイルを含んだフォルダを`sxf2json.exe`にドラッグ&ドロップしてください．
 - sxfファイルと同じ階層にjsonファイルが出力されます．
 
 ### Macの場合
@@ -16,15 +16,23 @@ RETAS STUDIOのタイムシートのsxfファイルをjson形式に変換・保�
 ```
 sxf2json <タイムシート.sxf>
 ```
-
-### After Effectsでタイムシート(.json)の読み込み
+- sxfファイルを含んだフォルダに対して実行
+```
+sxf2json <タイムシートを含んだフォルダ>
+```
+### Pythonで実行 (Win/Mac)
+- ターミナル/コマンドプロンプトで`sxf2json.py`のあるディレクトリに移動し，以下のコマンドを実行して下さい．
+```
+python3 sxf2json.py <タイムシート.sxf>
+```
+- sxfファイルを含んだフォルダに対して実行
+```
+python3 sxf2json <タイムシートを含んだフォルダ>
+```
+## After Effectsでタイムシート(.json)の読み込み
 ![ae](images/ae.gif)
 
-以下のファイル
-- `loadTimesheet.jsx`
-- `json2.js`[https://gist.github.com/atheken/654510] からダウンロード
-
-を以下のパスに配置してください．
+`loadTimesheet.jsx`を以下のパスに配置してください．
 - `C:\Program Files\Adobe\Adobe After Effects <Version>\Support Files\Scripts` (Win) 
 
 - `Applications/Adobe After Effects <Version>/Scripts` (Mac)

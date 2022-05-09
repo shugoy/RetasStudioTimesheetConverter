@@ -1,6 +1,4 @@
-#include 'json2.js'
-
-// path setting
+// path delimiter setting
 if (Folder.fs == "Macintosh") {
     var delimiter = "/";
 } else if (Folder.fs == "Windows") {
