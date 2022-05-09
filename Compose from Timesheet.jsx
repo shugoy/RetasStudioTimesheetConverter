@@ -10,6 +10,9 @@ var scriptDir = scriptFile.parent.fsName;
 
 function openFileDirectory() {
     var openPath = File.openDialog("タイムシート[.json/.sxf]を選択してください", "");
+    if (openPath === null) {
+        return null;
+    } 
     var ext = openPath.name.split('.').slice(-1)[0];
     
     if (ext == "json") {
@@ -32,7 +35,7 @@ function openFileDirectory() {
         return new File(openPath.fsName.split('.')[0] + ".json");
     }
     else {
-        return null;
+        return -1;
     }
 }
 
@@ -76,6 +79,9 @@ function runTimeSheet() {
     var file = openFileDirectory();
 
     if (file === null) {
+        return;
+    }
+    else if (file == -1) {
         alert("ファイルを読み込めませんでした．")
         return;
     } 
@@ -119,6 +125,7 @@ function runTimeSheet() {
         io.forceAlphabetical = true;
         tgaseq = app.project.importFile(io);
         tgaseq.parentFolder = theFolder;
+        tgaseq.mainSource.conformFrameRate = fps;
         
         // コンポジションの作成
         if (theComp === null) {
@@ -134,25 +141,26 @@ function runTimeSheet() {
         theLayer.timeRemapEnabled = true;
         var timeRemapProp = theLayer.property("ADBE Time Remapping")
         timeRemapProp.removeKey(timeRemapProp.numKeys);
+        // timeRemapProp.removeKey(1);
 
-        theLayer.outPoint = n_frames/fps;
+        var frameDuration = tgaseq.frameDuration;
+        theLayer.outPoint = n_frames * frameDuration;
         
-        var keyIndex = 1;
+        // var keyIndex = 1;
         var isVisible = false;
-        for (var idx_frame=0; idx_frame<n_frames-1; idx_frame++) {
-            var value = tsObject.inbetween[layerName][idx_frame];
-            if (value > 0) {
+        for (var idx_frame = 0; idx_frame < n_frames-1; idx_frame++) {
+            var frame_value = tsObject.inbetween[layerName][idx_frame];
+            if (frame_value > 0) {
                 if (isVisible == false) {
-                    theLayer.inPoint = idx_frame/fps;
+                    theLayer.inPoint = idx_frame*frameDuration;
+                    theLayer.outPoint = theLayer.outPoint - theLayer.inPoint;
                     isVisible = true;
                 }
-                var timeRemapProp = theLayer.property("ADBE Time Remapping");
-                var frameDuration = tgaseq.frameDuration;
-                var sec = idx_frame * frameDuration;
-                var valSec = (value - 1) * frameDuration;
-                timeRemapProp.setValueAtTime(sec, valSec);
+                var time_sec = idx_frame * frameDuration;
+                var val_sec = (frame_value - 1) * frameDuration;
+                timeRemapProp.setValueAtTime(time_sec, val_sec);
                 timeRemapProp.setInterpolationTypeAtKey(timeRemapProp.numKeys, KeyframeInterpolationType.HOLD, KeyframeInterpolationType.HOLD)
-                keyIndex++;
+                // keyIndex++;
             } 
         }   
     }
