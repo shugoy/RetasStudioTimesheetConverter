@@ -33,17 +33,17 @@ python3 sxf2json <タイムシートを含んだフォルダ>
 ![ae](images/ae.gif)
 
 `loadTimesheet.jsx`を以下のパスに配置してください．
-- `C:\Program Files\Adobe\Adobe After Effects <Version>\Support Files\Scripts` (Win) 
+- `C:\Program Files\Adobe\Adobe After Effects <Version>\Support Files\Scripts\ScriptUI Panels` (Win) 
 
-- `Applications/Adobe After Effects <Version>/Scripts` (Mac)
+- `Applications/Adobe After Effects <Version>/Scripts/ScriptUI Panels` (Mac)
 
 実行方法
-1. `File > Scripts > Run Script File...`から`loadTimesheet.jsx`を実行．
-2. "タイムシートを選択して実行"ボタンを押す．
-3. jsonファイルを選択すると，コンポジションの作成とフッテージの読み込み，タイムリマップの設定が行われます．
+1. After Effectsの`Window > Load Timesheet.jsx`にチェックしてLoad Timesheetパネルを表示
+2. Load Timesheetパネルの"実行"ボタンを押す．
+3. jsonファイルを選択すると，コンポジションの作成とフッテージの読み込み，タイムリマップの設定が実行されます．
 
 
 ### After Effectsでタイムシート(.sxf)の読み込み (sxf-->jsonの自動変換)
-- AfterEffectsにて`Preferences > Scripting & Expressions > Application Scripting > Allow Scripts to Write Files and Access Network`にチェック.
-- `sxf2json.exe`(Win)または`sxf2json`(Mac)をAfterEffectsのScriptsフォルダに配置．
+- After Effectsにて`Preferences > Scripting & Expressions > Application Scripting > Allow Scripts to Write Files and Access Network`にチェック.
+- `sxf2json.exe`(Win)または`sxf2json`(Mac)または`sxf2json.py`(Win/Mac)をAfterEffectsの`Scripts/ScriptUI Panels`フォルダに配置．
 - タイムシート選択時にsxfファイルを選択すると，バイナリが実行され，json変換・読み込みが行われます．(*パスに日本語が含まれているとうまく行かない可能性があります)
