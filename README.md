@@ -38,13 +38,13 @@ python3 sxf2json <タイムシートを含んだフォルダ>
     - After Effectsの`Scripts/ScriptUI Panels`フォルダに`Compose from Timesheet.jsx`をコピー
 1. After Effectsを再起動
 1. After Effectsの`Window > Compose from Timesheet.jsx`にチェックしてCompose from Timesheetパネルを表示
-1. Compose from Timesheetパネルの"実行"ボタンを押す．
+1. Compose from Timesheetパネルの`実行`ボタンをクリック．
 1. jsonファイルを選択すると，コンポジションの作成とフッテージの読み込み，タイムリマップの設定が実行されます．
 
 
 ### After Effectsでタイムシート(.sxf)の読み込み (sxf-->jsonの自動変換)
 1. After Effectsにて`Preferences > Scripting & Expressions > Application Scripting > Allow Scripts to Write Files and Access Network`にチェック.
-1. After Effectsの`Compose from Timesheet`パネルの`sxf2json`の`...`をクリックして，`sxf2json.exe`(Win)または`sxf2json`(Mac)または`sxf2json.py`(Win/Mac)を選択
+1. スクリプトと同じフォルダに`sxf2json.exe`(Win)または`sxf2json`(Mac)または`sxf2json.py`(Win/Mac)をコピー．（パネルの`スクリプトパスを表示`ボタンをクリックすると`Compose from Timesheet.jsx`スクリプトのあるフォルダのパスが表示されます）
 1. タイムシート選択時にsxfファイルを選択すると，バイナリが実行され，json変換・読み込みが行われます．(*パスに日本語が含まれているとうまく行かない可能性があります)
 
 ## 動作確認

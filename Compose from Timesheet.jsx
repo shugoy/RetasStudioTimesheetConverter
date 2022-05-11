@@ -1,4 +1,4 @@
-// path delimiter setting
+// path delimiter
 if (Folder.fs == "Macintosh") {
     var delimiter = "/";
 } else if (Folder.fs == "Windows") {
@@ -8,7 +8,7 @@ if (Folder.fs == "Macintosh") {
 var scriptFile = new File($.fileName);
 var scriptDir = scriptFile.parent.fsName;
 
-function openFileDirectory() {
+function getTimesheetFromDialog() {
     var openPath = File.openDialog("タイムシート[.json/.sxf]を選択してください", "");
     if (openPath === null) {
         return null;
@@ -18,14 +18,15 @@ function openFileDirectory() {
     if (ext == "json") {
         return openPath;
     }
-    else if (ext == "sxf") {
+    else if (ext == "sxf" || ext == "tsf") {
         var fsName = openPath.fsName;
-        if (Folder.fs == "Windows" && File(scriptDir + delimiter + "sxf2json.exe").exists) {
-            var cmd = scriptDir + delimiter + "sxf2json.exe";
-        } else if (Folder.fs == "Macintosh" && File(scriptDir + delimiter + "sxf2json").exists) {
-            var cmd = scriptDir + delimiter + "sxf2json";
-        } else if (File(scriptDir + delimiter + "sxf2json.py").exists) {
-            var cmd = ["python3", scriptDir + delimiter + "sxf2json.py"].join(" ");
+        var sxf2jsonPath = scriptDir + delimiter + "sxf2json";
+        if (Folder.fs == "Windows" && File(sxf2jsonPath+".exe").exists) {
+            var cmd = sxf2jsonPath+".exe";
+        } else if (Folder.fs == "Macintosh" && File(sxf2jsonPath).exists) {
+            var cmd = sxf2jsonPath;
+        } else if (File(sxf2jsonPath+".py").exists) {
+            var cmd = ["python3", sxf2jsonPath+".py"].join(" ");
         } else {
             alert(scriptDir+"にsxf2json[.exe/.py]が存在しません．");
             return null;
@@ -76,7 +77,7 @@ function getFootagePath(pathdir, layerName) {
 
 function runTimeSheet() {
 
-    var file = openFileDirectory();
+    var file = getTimesheetFromDialog();
 
     if (file === null) {  // Cancel
         return;
@@ -123,19 +124,19 @@ function runTimeSheet() {
         io.importAs = ImportAsType.FOOTAGE;
         io.sequence = true;
         io.forceAlphabetical = true;
-        tgaseq = app.project.importFile(io);
-        tgaseq.parentFolder = theFolder;
-        tgaseq.mainSource.conformFrameRate = fps;
+        var img_sequence = app.project.importFile(io);
+        img_sequence.parentFolder = theFolder;
+        img_sequence.mainSource.conformFrameRate = fps;
         
         // コンポジションの作成
         if (theComp === null) {
-            var width = tgaseq.width;
-            var height = tgaseq.height;
+            var width = img_sequence.width;
+            var height = img_sequence.height;
             theComp = createNewComposition(tsObject, name, width, height);
             theComp.openInViewer();
         }
         // コンポジションにレイヤーを追加
-        var theLayer = theComp.layers.add(tgaseq);
+        var theLayer = theComp.layers.add(img_sequence);
         
         // タイムリマップを有効化
         theLayer.timeRemapEnabled = true;
@@ -143,7 +144,7 @@ function runTimeSheet() {
         // タイムリマップは初期状態で先頭と末尾に打たれるので，末尾を削除
         timeRemapProp.removeKey(timeRemapProp.numKeys);
 
-        var frameDuration = tgaseq.frameDuration;
+        var frameDuration = img_sequence.frameDuration;
         theLayer.outPoint = n_frames * frameDuration;
         
         var isVisible = false;
@@ -169,34 +170,39 @@ function runTimeSheet() {
 
 // GUI setting
 function createUI(thisObj){
-    var myPanel = (thisObj instanceof Panel) ? thisObj : new Window("palette", "Compose from JSON",
+    var myPanel = (thisObj instanceof Panel) ? thisObj : new Window("palette", "Compose from Timesheet",
     [100, 100, 300, 300]);
     
-    
     var btnRun = myPanel.add('button', [10, 10, 10+90, 10+20], '実行');
-
     btnRun.onClick = function (){
         runTimeSheet();
     };
 
-    var textui_sxf2json_label = myPanel.add('statictext', [10, 40, 10+140, 40+20], "sxf2json");
-    var textui_sxf2json_path = myPanel.add('edittext', [10, 60, 10+140, 60+20], scriptDir);
-    var btn_sxf2json_path = myPanel.add('button', [10+140+10, 60, 10+140+10+30, 60+20], '...');
+    // myPanel.add('statictext', [10, 40, 10+140, 40+20], "スクリプトパスを表示");
+    // var btn_showScriptDir = myPanel.add('button', [10+140+10, 40, 10+140+10+30, 40+20], 'スクリプトパスを表示');
+    var btn_showScriptDir = myPanel.add('button', [10, 40, 10+140+10+30, 40+20], 'スクリプトパスを表示');
+    btn_showScriptDir.onClick = function () {
+        alert(scriptDir)
+    }
     
-    btn_sxf2json_path.onClick = function btnfn_sxf2json_path(){
-        var openPath = File.openDialog("sxf2json[.exe/.py]を選択してください", "");
-        if (openPath === null) {
-            alert("ファイルを読み込めませんでした．")
-            return;
-        } else {
-            scriptDir = openPath.parent.fsName;
-            textui_sxf2json_path.text = openPath.fsName;
-        }
-    }
-    textui_sxf2json_path.onChanging = function () {
-        scriptFile = new File(textui_sxf2json_path.text);
-        scriptDir = scriptFile.parent.fsName;
-    }
+    // myPanel.add('statictext', [10, 40, 10+140, 40+20], "sxf2json");
+    // var textui_sxf2json_path = myPanel.add('edittext', [10, 60, 10+140, 60+20]);
+    // var btn_sxf2json_path = myPanel.add('button', [10+140+10, 60, 10+140+10+30, 60+20], '...');
+    
+    // btn_sxf2json_path.onClick = function btnfn_sxf2json_path(){
+    //     var openPath = File.openDialog("sxf2json[.exe/.py]を選択してください", "");
+    //     if (openPath === null) {
+    //         alert("ファイルを読み込めませんでした．")
+    //         return;
+    //     } else {
+    //         scriptDir = openPath.parent.fsName;
+    //         textui_sxf2json_path.text = openPath.fsName;
+    //     }
+    // }
+    // textui_sxf2json_path.onChanging = function () {
+    //     scriptFile = new File(textui_sxf2json_path.text);
+    //     scriptDir = scriptFile.parent.fsName;
+    // }
 
     return myPanel;
 }
